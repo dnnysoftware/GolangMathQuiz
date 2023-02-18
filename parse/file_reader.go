@@ -25,7 +25,7 @@ func ReadQuizProblems(csvFile *os.File) []question {
 			log.Fatal(err)
 		}
 		if line[0] != "" && line[1] != "" {
-			questions = append(questions, question{line[0], line[1]})
+			questions = append(questions, question{problem: line[0], answer: line[1]})
 		}
 	}
 	return questions
