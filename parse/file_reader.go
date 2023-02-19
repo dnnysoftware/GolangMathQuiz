@@ -5,17 +5,18 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
-type question struct {
-	problem string
-	answer  string
+type Question struct {
+	Problem string
+	Answer  string
 }
 
 // Read and get records of quiz problems and answers from csv file
-func ReadQuizProblems(csvFile *os.File) []question {
+func ReadQuizProblems(csvFile *os.File) []Question {
 	reader := csv.NewReader(csvFile)
-	questions := make([]question, 0)
+	questions := make([]Question, 0)
 	for {
 		line, err := reader.Read()
 		if err == io.EOF {
@@ -25,7 +26,7 @@ func ReadQuizProblems(csvFile *os.File) []question {
 			log.Fatal(err)
 		}
 		if line[0] != "" && line[1] != "" {
-			questions = append(questions, question{problem: line[0], answer: line[1]})
+			questions = append(questions, Question{Problem: line[0], Answer: strings.TrimSpace(line[1])})
 		}
 	}
 	return questions

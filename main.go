@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"quiz/operate"
 	"quiz/parse"
 	"strings"
 )
 
 var (
 	quizQuestions = flag.String("csv", "problems.csv", "CSV file that constains problems with solutions")
+	timeLimit     = flag.Int("limit", 60, "Time limit for the quiz in seconds")
 )
 
 func main() {
@@ -25,6 +27,7 @@ func main() {
 		log.Fatalf("Could not open file %s", *quizQuestions)
 	}
 	questions := parse.ReadQuizProblems(csvFile)
-	fmt.Print(questions)
+	percentSolved := operate.SolveQuestions(&questions, timeLimit)
+	fmt.Printf("Correct Questions: %.2f%%\n", percentSolved)
 
 }
